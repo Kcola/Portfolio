@@ -1,10 +1,24 @@
-﻿@inherits LayoutComponentBase
-
+﻿@using PortfolioV2.Services
+@inherits LayoutComponentBase
+@inject IStateProvider State
 <main>
-    <nav>
-        <Navbar/>
-    </nav>
-    <div class="content">
-        @Body
-    </div>
+    <CascadingValue Value="@State">
+        @if (State.NavOpen)
+        {
+            <nav>
+                <Navbar/>
+            </nav>
+        }
+        <button class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")" @onclick="@(() => State.NavOpen = !State.NavOpen)">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+        </button>
+        <div class="content">
+            @Body
+        </div>
+    </CascadingValue>
 </main>
+
+@code{
+}

@@ -1,0 +1,13 @@
+ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 80%;
+    font-weight: bold;
+    font-size: 2rem;
+}
+li{
+    color:white;
+    list-style: none;
+}
