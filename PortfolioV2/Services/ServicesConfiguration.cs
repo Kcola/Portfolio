@@ -8,5 +8,9 @@ namespace PortfolioV2.Services
         {
             services.AddSingleton<IStateProvider, StateProvider>();
         } 
+        public static void AddJavaScriptInteropService(this IServiceCollection services)
+        {
+            services.AddScoped<UseJavascript>();
+        } 
     }
 }

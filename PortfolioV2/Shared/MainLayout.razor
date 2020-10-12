@@ -1,24 +1,74 @@
 ﻿@using PortfolioV2.Services
 @inherits LayoutComponentBase
 @inject IStateProvider State
+@inject UseJavascript JS
 <main>
-    <CascadingValue Value="@State">
-        @if (State.NavOpen)
-        {
-            <nav>
+    @if (Dimensions == null)
+    {
+        <div>Loading...</div>
+    }
+    else
+    {
+        <CascadingValue Value="@State">
+            <div class="left-border">
+                <ul>
+                    @for (var i = 0; i < TextBoarder(); i++)
+                    {
+                        <li>~</li>
+                    }
+                </ul>
+            </div>
+            <nav class="@($"{(State.NavOpen ? "is-active" : "")}")">
                 <Navbar/>
             </nav>
-        }
-        <button class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")" @onclick="@(() => State.NavOpen = !State.NavOpen)">
-              <span class="hamburger-box">
-                <span class="hamburger-inner"></span>
-              </span>
-        </button>
-        <div class="content">
-            @Body
-        </div>
-    </CascadingValue>
+            <button class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")" @onclick="@(() => State.NavOpen = !State.NavOpen)">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+            <div class="content">
+                @Body
+            </div>
+            <div class="footer">
+                <div>
+                    -- VISUAL --
+                </div>
+                <ul class="vim-text-info">
+                    <li>
+                        2
+                    </li>
+                    <li>
+                        6,15
+                    </li>
+                    <li>
+                        All
+                    </li>
+                </ul>
+            </div>
+        </CascadingValue>
+    }
 </main>
 
 @code{
+    private BrowserDimension Dimensions { get; set; }
+
+
+    private double TextBoarder()
+    {
+        var BaseFontSize = 16;
+        var RelativeFontSize = 1.5;
+        var FontToLi = 1.29411764706;
+        if (Dimensions.Width < 768)
+        {
+            RelativeFontSize = 1.2;
+        }
+        return (Dimensions.Height / (BaseFontSize * RelativeFontSize * FontToLi)) - 5;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Dimensions = await JS.GetDimensions();
+        Console.WriteLine(Dimensions == null);
+    }
+
 }
