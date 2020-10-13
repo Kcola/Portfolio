@@ -1,7 +1,20 @@
 ﻿@page "/"
+@using PortfolioV2.Services
 
 <div class="about">
-<h3>Hello, My name is Kola Campbell.</h3>
+<p style="font-weight: bold">Sup, My name is Kola Campbell.</p>
 <p>Software engineer at The New York Stem Cell Foundation Research Institute. Masters Degree in Computer Science, undergraduate degree in Electrical Engineering.</p>
-    <p class="last-line">Typescript and .NET enthusiast<span class="cursor">|</span></p>
+    <p class="last-line">Typescript and .NET enthusiast
+        @if (!State.NavOpen)
+        {
+            <span class="cursor">|</span>
+        }
+        </p>
 </div>
+
+@code{
+
+    [CascadingParameter]
+    public IStateProvider State { get; set; }
+
+}

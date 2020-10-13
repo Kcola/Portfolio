@@ -20,12 +20,19 @@
         <a class="dismiss">🗙</a>
     </div>
     <script type="text/javascript">
-        window.getDimensions = function() {
+        window.getDimensions = function () {
             return {
                 width: window.innerWidth,
                 height: window.innerHeight
             };
         };
+        window.Dimensions = (dotnetHelper) => {
+            window.addEventListener("resize", () => {
+                dotnetHelper.invokeMethodAsync("UseWindow");
+               // dotnetHelper.dispose();
+            });
+        }
+
     </script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
