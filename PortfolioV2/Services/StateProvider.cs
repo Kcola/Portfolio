@@ -1,24 +1,58 @@
+using System;
+using System.Text.Json;
+
+#nullable enable
 namespace PortfolioV2.Services
 {
-    public record State
+    public class State
     {
-        public bool NavOpen { get; init; }
+        public bool? NavOpen { get; set; } = false;
+        public VimCommandLine? CurrentCommand { get; set; } = new VimCommandLine("", "");
+        private void NotifyStateChanged() => OnChange?.Invoke();
 
-    }
+        public event Action OnChange;
 
-    public static class Mutate
-    {
-        public enum Action
+        public void Reducer(StateAction stateAction)
         {
-            TOGGLE_NAVBAR
-        }
-        public static State Reducer(State state, Action action)
-        {
-            return action switch
+            switch (stateAction.Type)
             {
-                Action.TOGGLE_NAVBAR => state with { NavOpen = !state.NavOpen },
-                _ => state
-            };
+                case ActionType.TOGGLE_NAVBAR:
+                    NavOpen = stateAction.Payload?.NavOpen;
+                    break;
+                case ActionType.ENTER_COMMAND:
+                    NavOpen = stateAction.Payload?.NavOpen;
+                    CurrentCommand = stateAction.Payload?.CurrentCommand;
+                    break;
+            }
+
+            NotifyStateChanged();
+        }
+
+    }
+
+    public record VimCommandLine
+        {
+            public string Command { get; init; } = "";
+            public string Args { get; init; } = "";
+            public VimCommandLine(string command, string args) => (Command, Args) = (command, args);
+        }
+
+        public static class NavItems
+        {
+            public const string Socials = "socials.ts";
+            public const string Contacts = "contacts.ts";
+            public const string Publications = "publications.ts";
+        }
+
+        public enum ActionType
+        {
+            TOGGLE_NAVBAR,
+            ENTER_COMMAND
+        }
+
+        public class StateAction
+        {
+            public ActionType Type { get; set; }
+            public State? Payload { get; set; }
         }
     }
-}

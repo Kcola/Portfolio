@@ -1,6 +1,40 @@
+@using PortfolioV2.Services
+@using System.Text.Json
+@implements IDisposable
+@inject State State
 <ul>
-    <li>Home</li>
-    <li>Publications</li>
-    <li>Contact</li>
-    <li>Socials</li>
+    <li >Home</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Publications)">Publications</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)">Contact</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Socials)">Socials</li>
 </ul>
+@code{
+    [Parameter]
+    public EventCallback Remount { get;set; }
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+
+
+    public Action GetNavBarItemEventHandler(string navItem)
+    {
+        return () =>
+        {
+            State.Reducer( new StateAction
+            {
+                Type = ActionType.ENTER_COMMAND, Payload = new State
+                {
+                    CurrentCommand = new VimCommandLine(Commands.OpenFile, navItem),
+                    NavOpen = false
+                }
+            });
+            Remount.InvokeAsync();
+        };
+    }
+}

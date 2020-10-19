@@ -1,12 +1,14 @@
 ﻿@page "/"
 @using PortfolioV2.Services
+@implements IDisposable
+@inject State State
 
 <div class="about">
     <p style="font-weight: bold">Sup, My name is Kola Campbell.</p>
     <p>Software engineer at The New York Stem Cell Foundation Research Institute. Masters Degree in Computer Science,
         undergraduate degree in Electrical Engineering.</p>
     <p class="last-line">Typescript and .NET enthusiast
-        @if (!State.NavOpen)
+        @if (!State.NavOpen.Value)
         {
             <span class="cursor">|</span>
         }
@@ -14,7 +16,14 @@
 </div>
 
 @code{
-    [CascadingParameter]
-    public State State { get; set; }
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
 
 }

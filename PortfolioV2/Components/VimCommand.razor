@@ -1,44 +1,50 @@
-<style>@Css</style>
-<p class="typewriter">@Text</p>
+@using System.Text.Json
+@using PortfolioV2.Services
+@inject State State
+@implements IDisposable
+<style>
+    @Css
+</style>
+<p class="typewriter">@Command</p>
 
 @code {
-
-    [Parameter]
-    public string CommandArgs { get; set; }
-
     [Parameter]
     public string Command { get; set; }
-
-    public string Text { get; set; }
     public string Css { get; set; }
 
     protected override void OnInitialized()
     {
-        Text = $":{Command} {CommandArgs}";
+        Command = $":{State.CurrentCommand.Command} {State.CurrentCommand.Args}";
         Css = $@"
 .typewriter{{
-    overflow: hidden; /* Ensures the content is not revealed until the animation */
-    border-right: .15em solid white; /* The typwriter cursor */
-    white-space: nowrap; /* Keeps the content on a single line */
-    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-    letter-spacing: .15em; /* Adjust as needed */
-    animation: 
-        typing {Text.Length/4}s steps({Text.Length}, end),
-        blink-caret .75s step-end infinite;
+overflow: hidden; /* Ensures the content is not revealed until the animation */
+border-right: .15em solid white; /* The typwriter cursor */
+white-space: nowrap; /* Keeps the content on a single line */
+margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+letter-spacing: .15em; /* Adjust as needed */
+animation:
+typing {Command.Length / 8}s steps({Command.Length}, end),
+blink-caret .75s step-end infinite;
 }}
 
 /* The typing effect */
 @keyframes typing {{
-    from {{ width: 0 }}
-    to {{ width: 100% }}
+from {{ width: 0 }}
+to {{ width: 100% }}
 }}
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {{
-    from, to {{ border-color: transparent }}
-    50% {{ border-color: white; }}
+from, to {{ border-color: transparent }}
+50% {{ border-color: white; }}
 }}
 ";
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
     }
 
 }
