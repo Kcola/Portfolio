@@ -1,12 +1,24 @@
 namespace PortfolioV2.Services
 {
-    public interface IStateProvider
+    public record State
     {
-        bool NavOpen { get; set; }
+        public bool NavOpen { get; init; }
+
     }
 
-    public class StateProvider : IStateProvider
+    public static class Mutate
     {
-        public bool NavOpen { get; set; }
+        public enum Action
+        {
+            TOGGLE_NAVBAR
+        }
+        public static State Reducer(State state, Action action)
+        {
+            return action switch
+            {
+                Action.TOGGLE_NAVBAR => state with { NavOpen = !state.NavOpen },
+                _ => state
+            };
+        }
     }
 }

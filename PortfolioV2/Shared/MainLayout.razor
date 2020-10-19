@@ -1,6 +1,6 @@
 ﻿@using PortfolioV2.Services
 @inherits LayoutComponentBase
-@inject IStateProvider State
+@inject State State
 @inject UseJavascript JS
 @inject IJSRuntime JSRuntime
 <main>
@@ -20,9 +20,10 @@
                 </ul>
             </div>
             <nav class="@($"{(State.NavOpen ? "is-active" : "")}")">
-                <Navbar/>
+                <Navbar />
             </nav>
-            <button class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")" @onclick="@(() => State.NavOpen = !State.NavOpen)">
+            <button class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")"
+            @onclick="@(() => State = Mutate.Reducer(State, Mutate.Action.TOGGLE_NAVBAR))">
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
@@ -32,7 +33,7 @@
             </div>
             <div class="footer">
                 <div>
-                    <VimCommand Command="@Commands.OpenFile" CommandArgs="socials.ts"/>
+                    <VimCommand Command="@Commands.OpenFile" CommandArgs="socials.ts" />
                 </div>
                 <ul class="vim-text-info">
                     <li>
@@ -48,9 +49,9 @@
             </div>
         </CascadingValue>
     }
-</main>
+    </main>
 
-@code{
+    @code{
     private BrowserDimension Dimensions { get; set; }
 
 
