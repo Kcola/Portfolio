@@ -19,13 +19,11 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100-rc.2.20479.15
-      - name: Where am I
-      - run: ls
-      - name: Publish with dotnet
-        run: dotnet publish ./PortfolioV2 --configuration Release --output build
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Publish with dotnet
+        run: dotnet publish ./PortfolioV2 --configuration Release --output build
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v0.0.1-preview
