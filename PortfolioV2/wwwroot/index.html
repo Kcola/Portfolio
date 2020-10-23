@@ -29,10 +29,10 @@
         window.Dimensions = (dotnetHelper) => {
             window.addEventListener("resize", () => {
                 dotnetHelper.invokeMethodAsync("UseWindow");
-               // dotnetHelper.dispose();
+                // dotnetHelper.dispose();
             });
         }
-
+        window.Redirect = (url) => window.open(url, "_blank");
     </script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>

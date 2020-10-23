@@ -33,7 +33,7 @@
         </div>
         <div class="footer">
             <div>
-                @if (Mount)
+                @if (Mount && State.CurrentCommand.Command.Length > 0)
                 {
                     <VimCommand Command="@($":{State.CurrentCommand.Command} {State.CurrentCommand.Args}")"/>
                 }

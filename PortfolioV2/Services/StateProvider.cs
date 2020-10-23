@@ -23,6 +23,9 @@ namespace PortfolioV2.Services
                     NavOpen = stateAction.Payload?.NavOpen;
                     CurrentCommand = stateAction.Payload?.CurrentCommand;
                     break;
+                case ActionType.CLEAR_COMMAND:
+                    CurrentCommand = new VimCommandLine("","");
+                    break;
             }
 
             NotifyStateChanged();
@@ -42,12 +45,15 @@ namespace PortfolioV2.Services
             public const string Socials = "socials.ts";
             public const string Contacts = "contacts.ts";
             public const string Publications = "publications.ts";
+            public const string Home = "home.ts";
+            public const string Github = "github.ts";
         }
 
         public enum ActionType
         {
             TOGGLE_NAVBAR,
-            ENTER_COMMAND
+            ENTER_COMMAND,
+            CLEAR_COMMAND
         }
 
         public class StateAction

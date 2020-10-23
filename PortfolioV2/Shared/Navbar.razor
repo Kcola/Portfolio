@@ -3,10 +3,10 @@
 @implements IDisposable
 @inject State State
 <ul>
-    <li >Home</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Home)">Home</li>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Publications)">Publications</li>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)">Contact</li>
-    <li @onclick="@GetNavBarItemEventHandler(NavItems.Socials)">Socials</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Github)">Github</li>
 </ul>
 @code{
     [Parameter]

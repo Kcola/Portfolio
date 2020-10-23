@@ -16,6 +16,11 @@ namespace PortfolioV2.Services
         {
             return await _js.InvokeAsync<BrowserDimension>("getDimensions");
         }
+
+        public async Task Redirect(string url)
+        {
+            await _js.InvokeVoidAsync("Redirect", url);
+        }
     }
     public class BrowserDimension
     {

@@ -1,18 +1,22 @@
 @using System.Text.Json
 @using PortfolioV2.Services
 @inject State State
+@inject UseJavascript JS
 @implements IDisposable
+@inject NavigationManager NavigationManager
 <style>
     @Css
 </style>
 <p class="typewriter">@Command</p>
 
 @code {
+
     [Parameter]
     public string Command { get; set; }
+
     public string Css { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Command = $":{State.CurrentCommand.Command} {State.CurrentCommand.Args}";
         Css = $@"
@@ -40,6 +44,60 @@ from, to {{ border-color: transparent }}
 }}
 ";
         State.OnChange += StateHasChanged;
+        switch (State.CurrentCommand.Args)
+        {
+            case NavItems.Publications:
+                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                {
+                    JS.Redirect("https://arxiv.org/abs/1904.13231");
+                    State.Reducer(new StateAction
+                    {
+                        Type = ActionType.CLEAR_COMMAND,
+                    });
+                });
+                break;
+            case NavItems.Contacts:
+                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                {
+                    NavigationManager.NavigateTo("Contact");
+                    State.Reducer(new StateAction
+                    {
+                        Type = ActionType.CLEAR_COMMAND,
+                    });
+                });
+                break;
+            case NavItems.Socials:
+                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                {
+                    NavigationManager.NavigateTo("Socials");
+                    State.Reducer(new StateAction
+                    {
+                        Type = ActionType.CLEAR_COMMAND,
+                    });
+                });
+                break;
+            case NavItems.Github:
+                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                {
+                    JS.Redirect("https://github.com/kcola");
+                    State.Reducer(new StateAction
+                    {
+                        Type = ActionType.CLEAR_COMMAND,
+                    });
+                });
+                break;
+            case NavItems.Home:
+                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                {
+                    NavigationManager.NavigateTo("/");
+                    State.Reducer(new StateAction
+                    {
+                        Type = ActionType.CLEAR_COMMAND,
+                    });
+                });
+                break;
+                
+        }
     }
 
     public void Dispose()
