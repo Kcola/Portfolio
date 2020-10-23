@@ -20,7 +20,7 @@ jobs:
         with:
           dotnet-version: 5.0.100-rc.2.20479.15
       - name: Publish with dotnet
-        run: dotnet publish --configuration Release --output build
+        run: dotnet publish ./PortfolioV2 --configuration Release --output build
       - uses: actions/checkout@v2
         with:
           submodules: true
