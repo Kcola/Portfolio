@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100-rc.2.20479.15
-      - name: Where tf am I?!?!?
+      - name: Where am I
       - run: ls
       - name: Publish with dotnet
         run: dotnet publish ./PortfolioV2 --configuration Release --output build
