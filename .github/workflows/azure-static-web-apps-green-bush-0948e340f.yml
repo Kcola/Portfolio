@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100-rc.2.20479.15
+      - name: Publish with dotnet
+        run: dotnet publish /PortfolioV2/PortfolioV2.csproj --configuration Release --output build
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -29,7 +35,7 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/PortfolioV2" # App source code path
           api_location: "Api" # Api source code path - optional
-          app_artifact_location: "dist" # Built app content directory - optional
+          app_artifact_location: "build/wwwroot" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
