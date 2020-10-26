@@ -1,7 +1,7 @@
 @using System.Text.Json
 @using PortfolioV2.Services
 @inject State State
-@inject UseJavascript JS
+@inject UseJavascript Js
 @implements IDisposable
 @inject NavigationManager NavigationManager
 <style>
@@ -18,8 +18,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Command = $":{State.CurrentCommand.Command} {State.CurrentCommand.Args}";
-        Css = $@"
+        if (State.CurrentCommand != null)
+        {
+            Command = $":{State.CurrentCommand.Command} {State.CurrentCommand.Args}";
+            Css = $@"
 .typewriter{{
 overflow: hidden; /* Ensures the content is not revealed until the animation */
 border-right: .15em solid white; /* The typwriter cursor */
@@ -43,60 +45,60 @@ from, to {{ border-color: transparent }}
 50% {{ border-color: white; }}
 }}
 ";
-        State.OnChange += StateHasChanged;
-        switch (State.CurrentCommand.Args)
-        {
-            case NavItems.Publications:
-                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                {
-                    JS.Redirect("https://arxiv.org/abs/1904.13231");
-                    State.Reducer(new StateAction
+            State.OnChange += StateHasChanged;
+            switch (State.CurrentCommand.Args)
+            {
+                case NavItems.Publications:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(async t =>
                     {
-                        Type = ActionType.CLEAR_COMMAND,
+                        await Js.Redirect("https://arxiv.org/abs/1904.13231");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
                     });
-                });
-                break;
-            case NavItems.Contacts:
-                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                {
-                    NavigationManager.NavigateTo("Contact");
-                    State.Reducer(new StateAction
+                    break;
+                case NavItems.Contacts:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
                     {
-                        Type = ActionType.CLEAR_COMMAND,
+                        NavigationManager.NavigateTo("Contact");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
                     });
-                });
-                break;
-            case NavItems.Socials:
-                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                {
-                    NavigationManager.NavigateTo("Socials");
-                    State.Reducer(new StateAction
+                    break;
+                case NavItems.Socials:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
                     {
-                        Type = ActionType.CLEAR_COMMAND,
+                        NavigationManager.NavigateTo("Socials");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
                     });
-                });
-                break;
-            case NavItems.Github:
-                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                {
-                    JS.Redirect("https://github.com/kcola");
-                    State.Reducer(new StateAction
+                    break;
+                case NavItems.Github:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(async t =>
                     {
-                        Type = ActionType.CLEAR_COMMAND,
+                        await Js.Redirect("https://github.com/kcola");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
                     });
-                });
-                break;
-            case NavItems.Home:
-                Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                {
-                    NavigationManager.NavigateTo("/");
-                    State.Reducer(new StateAction
+                    break;
+                case NavItems.Home:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
                     {
-                        Type = ActionType.CLEAR_COMMAND,
+                        NavigationManager.NavigateTo("/");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
                     });
-                });
-                break;
-                
+                    break;
+            }
         }
     }
 

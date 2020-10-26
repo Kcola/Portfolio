@@ -13,6 +13,10 @@ img{
     background-color: white;
     filter: contrast(76.5%);
     border:0;
+    transition: all 0.3s ease-in;
+}
+img:hover{
+    background-color: yellow;
 }
 @media only screen and (max-width: 768px) {
     .container {

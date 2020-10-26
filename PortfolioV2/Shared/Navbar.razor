@@ -2,15 +2,21 @@
 @using System.Text.Json
 @implements IDisposable
 @inject State State
+@inject NavigationManager NavigationManager
 <ul>
-    <li @onclick="@GetNavBarItemEventHandler(NavItems.Home)">Home</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Home)" class="@(CurrentRoute == "/" ? "active" : "")">Home</li>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Publications)">Publications</li>
-    <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)">Contact</li>
+    <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)" class="@(CurrentRoute.ToLower().Contains("contact") ? "active" : "")">Contact</li>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Github)">Github</li>
 </ul>
+<div style="display: none">@CurrentRoute</div>
 @code{
+
     [Parameter]
-    public EventCallback Remount { get;set; }
+    public EventCallback Remount { get; set; }
+    [Parameter]
+    public string CurrentRoute { get; set; }
+
     protected override void OnInitialized()
     {
         State.OnChange += StateHasChanged;
@@ -26,7 +32,7 @@
     {
         return () =>
         {
-            State.Reducer( new StateAction
+            State.Reducer(new StateAction
             {
                 Type = ActionType.ENTER_COMMAND, Payload = new State
                 {
@@ -37,4 +43,5 @@
             Remount.InvokeAsync();
         };
     }
+
 }

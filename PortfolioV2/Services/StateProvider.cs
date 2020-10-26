@@ -10,7 +10,7 @@ namespace PortfolioV2.Services
         public VimCommandLine? CurrentCommand { get; set; } = new VimCommandLine("", "");
         private void NotifyStateChanged() => OnChange?.Invoke();
 
-        public event Action OnChange;
+        public event Action? OnChange;
 
         public void Reducer(StateAction stateAction)
         {

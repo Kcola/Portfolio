@@ -3,6 +3,7 @@
 @inject State State
 @inject UseJavascript JS
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 @implements IDisposable
 <main>
     @if (Dimensions == null)
@@ -20,7 +21,7 @@
             </ul>
         </div>
         <nav class="@($"{(State.NavOpen.Value ? "is-active" : "")}")">
-            <Navbar Remount="@Remount"/>
+            <Navbar Remount="@Remount" CurrentRoute="@CurrentRoute"/>
         </nav>
         <button class="@($"hamburger hamburger--collapse {(State.NavOpen.Value ? "is-active" : "")}")"
                 @onclick="@HandleClick">
@@ -56,7 +57,7 @@
 @code{
     private BrowserDimension Dimensions { get; set; }
     private bool Mount { get; set; } = false;
-
+    public string CurrentRoute { get; set; } = "";
     private double TextBoarder()
     {
         var BaseFontSize = 16;
@@ -103,6 +104,7 @@
 
     private void HandleClick()
     {
+        CurrentRoute = NavigationManager.Uri.Substring(NavigationManager.Uri.LastIndexOf("/"));
         State.Reducer(new StateAction
         {
             Type = ActionType.TOGGLE_NAVBAR,
