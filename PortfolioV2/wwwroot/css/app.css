@@ -62,8 +62,9 @@
 #app{
     height: 100vh;
     width: 100vw;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
