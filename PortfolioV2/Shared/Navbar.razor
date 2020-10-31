@@ -3,11 +3,12 @@
 @implements IDisposable
 @inject State State
 @inject NavigationManager NavigationManager
+@inject UseJavascript Js
 <ul>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Home)" class="@(CurrentRoute == "/" ? "active" : "")">Home</li>
-    <li @onclick="@GetNavBarItemEventHandler(NavItems.Publications)">Publications</li>
+    <li @onclick="@(()=>Js.Redirect("https://arxiv.org/abs/1904.13231"))">Publications</li>
     <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)" class="@(CurrentRoute.ToLower().Contains("contact") ? "active" : "")">Contact</li>
-    <li @onclick="@GetNavBarItemEventHandler(NavItems.Github)">Github</li>
+    <li @onclick="@(()=>Js.Redirect("https://github.com/kcola"))">Github</li>
 </ul>
 <div style="display: none">@CurrentRoute</div>
 @code{

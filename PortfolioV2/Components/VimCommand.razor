@@ -49,14 +49,7 @@ from, to {{ border-color: transparent }}
             switch (State.CurrentCommand.Args)
             {
                 case NavItems.Publications:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(async t =>
-                    {
-                        await Js.Redirect("https://arxiv.org/abs/1904.13231");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
+                    await Js.Redirect("https://arxiv.org/abs/1904.13231");
                     break;
                 case NavItems.Contacts:
                     await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
@@ -79,14 +72,7 @@ from, to {{ border-color: transparent }}
                     });
                     break;
                 case NavItems.Github:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(async t =>
-                    {
-                        await Js.Redirect("https://github.com/kcola");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
+                    await Js.Redirect("https://github.com/kcola");
                     break;
                 case NavItems.Home:
                     await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
