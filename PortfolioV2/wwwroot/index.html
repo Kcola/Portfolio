@@ -43,6 +43,10 @@
             });
         }
         window.Redirect = (url) => window.open(url, "_blank");
+        window.onresize = function() {
+            document.body.height = window.innerHeight;
+        }
+        window.onresize();
     </script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
