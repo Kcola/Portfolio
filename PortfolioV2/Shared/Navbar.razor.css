@@ -8,26 +8,26 @@ ul{
     font-size: 2rem;
     padding: 0;
 }
-li{
-    color:white;
+li {
+    color: white;
     list-style: none;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 500px;
-    background: linear-gradient(to left, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 50%);
+    background: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 50%);
     background-size: 200% 100%;
-    background-position:right bottom;
-    margin-left:10px;
-    transition:all 0.6s ease;
+    background-position: right bottom;
+    margin-left: 10px;
+    transition: all 0.6s ease;
 }
-li:hover {
-    background-position:left bottom;
+@media (hover: hover) {
+    li:hover {
+        background-position:left bottom;
+        cursor: pointer;
+    }
 }
 li.active{
     color:yellow;
-}
-li:hover{
-    cursor: pointer;
 }
