@@ -1,0 +1,24 @@
+@inject UseJavascript Js
+@page "/Projects"   
+@using PortfolioV2.Services
+<style>
+    .code{
+        font-size: 2rem;
+    }
+    .code > span{
+        color: yellow;
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+    }
+    .code > span:hover{
+        color: pink;
+    }
+</style>
+<pre>
+<code class="code" >
+.
+└── projects
+    ├── <span @onclick="@((() => Js.Redirect("https://kcola.github.io/ChatBot/")))">chat-bot.ts</span>
+    └── <span @onclick="@((() => Js.Redirect("https://kcola.github.io/Weather/")))">weather-app.ts</span>
+</code>
+</pre>

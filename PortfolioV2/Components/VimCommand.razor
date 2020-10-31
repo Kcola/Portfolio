@@ -61,6 +61,16 @@ from, to {{ border-color: transparent }}
                         });
                     });
                     break;
+                case NavItems.Projects:
+                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
+                    {
+                        NavigationManager.NavigateTo("Projects");
+                        State.Reducer(new StateAction
+                        {
+                            Type = ActionType.CLEAR_COMMAND,
+                        });
+                    });
+                    break;
                 case NavItems.Socials:
                     await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
                     {

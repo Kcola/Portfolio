@@ -47,6 +47,7 @@ namespace PortfolioV2.Services
             public const string Publications = "publications.ts";
             public const string Home = "home.ts";
             public const string Github = "github.ts";
+            public const string Projects = "projects.ts";
         }
 
         public enum ActionType
