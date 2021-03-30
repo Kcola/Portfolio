@@ -2,7 +2,7 @@ using System;
 using System.Text.Json;
 
 #nullable enable
-namespace PortfolioV2.Services
+namespace Portfolio.Services
 {
     public class State
     {

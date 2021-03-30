@@ -1,4 +1,4 @@
-namespace PortfolioV2
+namespace Portfolio
 {
     public static class Commands
     {

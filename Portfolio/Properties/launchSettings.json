@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PortfolioV2": {
+    "Portfolio": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

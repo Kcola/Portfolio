@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
-namespace PortfolioV2.Services
+namespace Portfolio.Services
 {
     public class UseJavascript
     {

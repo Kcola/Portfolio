@@ -1,6 +1,6 @@
 @inject UseJavascript Js
 @page "/Projects"   
-@using PortfolioV2.Services
+@using Portfolio.Services
 <style>
     .code{
         font-size: 2rem;
@@ -18,7 +18,6 @@
 <code class="code" >
 .
 └── projects
-    ├── <span @onclick="@((() => Js.Redirect("https://kcola.github.io/ChatBot/")))">chat-bot.ts</span>
-    └── <span @onclick="@((() => Js.Redirect("https://kcola.github.io/Weather/")))">weather-app.ts</span>
+    └── <span @onclick="@((() => Js.Redirect("https://kcola.github.io/ChatBot/")))">chat-bot.ts</span>
 </code>
 </pre>

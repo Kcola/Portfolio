@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PortfolioV2.Services
+namespace Portfolio.Services
 {
     public static class ServicesConfiguration
     {
