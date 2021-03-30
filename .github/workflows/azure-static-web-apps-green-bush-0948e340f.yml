@@ -23,7 +23,7 @@ jobs:
         with:
           submodules: true
       - name: Publish with dotnet
-        run: dotnet publish ./PortfolioV2 --configuration Release --output build
+        run: dotnet publish ./Portfolio --configuration Release --output build
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v0.0.1-preview
