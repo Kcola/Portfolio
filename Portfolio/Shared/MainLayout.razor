@@ -23,7 +23,7 @@
         <nav class="@($"{(State.NavOpen.Value ? "is-active" : "")}")">
             <Navbar Remount="@Remount" CurrentRoute="@CurrentRoute"/>
         </nav>
-        <button class="@($"hamburger hamburger--collapse {(State.NavOpen.Value ? "is-active" : "")}")"
+        <button aria-label="Expose Navigation" class="@($"hamburger hamburger--collapse {(State.NavOpen.Value ? "is-active" : "")}")"
                 @onclick="@HandleClick">
             <span class="hamburger-box">
                 <span class="hamburger-inner"></span>
