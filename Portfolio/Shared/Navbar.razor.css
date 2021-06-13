@@ -1,3 +1,6 @@
+nav{
+    height: 60vh;
+}
 ul{
     display: flex;
     flex-direction: column;
