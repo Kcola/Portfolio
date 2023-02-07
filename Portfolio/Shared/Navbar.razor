@@ -7,7 +7,6 @@
 <nav>
     <ul>
         <li @onclick="@GetNavBarItemEventHandler(NavItems.Home)" class="@(CurrentRoute == "/" ? "active" : "")">Home</li>
-        <li @onclick="@GetNavBarItemEventHandler(NavItems.Projects)" class="@(CurrentRoute.ToLower().Contains("projects") ? "active" : "")">Projects</li>
         <li @onclick="@(() => Js.Redirect("https://arxiv.org/abs/1904.13231"))">Publications</li>
         <li @onclick="@GetNavBarItemEventHandler(NavItems.Contacts)" class="@(CurrentRoute.ToLower().Contains("contact") ? "active" : "")">Contact</li>
         <li @onclick="@(() => Js.Redirect("https://github.com/kcola"))">Github</li>

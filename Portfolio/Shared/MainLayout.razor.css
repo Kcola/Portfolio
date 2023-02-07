@@ -43,7 +43,8 @@ nav.is-active {
     display: flex;
     width:20%;
     list-style: none;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 50px;
     align-items: center;
 }
 button {
