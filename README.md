@@ -1,1 +1,1 @@
-### Blazor powered portfolio website
+### Blazor powered website
