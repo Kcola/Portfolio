@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="Greeting" xml:space="preserve"><value>こんにちは、Kola Campbellです。</value></data>
+  <data name="Occupation" xml:space="preserve"><value>Microsoftのソフトウェアエンジニアです。</value></data>
+  <data name="Home" xml:space="preserve"><value>ホーム</value></data>
+  <data name="Publications" xml:space="preserve"><value>論文</value></data>
+  <data name="Contact" xml:space="preserve"><value>お問い合わせ</value></data>
+  <data name="MainNavigation" xml:space="preserve"><value>メインナビゲーション</value></data>
+  <data name="OpenNavigation" xml:space="preserve"><value>ナビゲーションを開く</value></data>
+  <data name="CloseNavigation" xml:space="preserve"><value>ナビゲーションを閉じる</value></data>
+  <data name="Language" xml:space="preserve"><value>言語</value></data>
+  <data name="NotFound" xml:space="preserve"><value>このアドレスにはページがありません。</value></data>
+  <data name="Loading" xml:space="preserve"><value>ポートフォリオを読み込み中</value></data>
+  <data name="Error" xml:space="preserve"><value>予期しないエラーが発生しました。</value></data>
+  <data name="Reload" xml:space="preserve"><value>再読み込み</value></data>
+  <data name="DismissError" xml:space="preserve"><value>エラーを閉じる</value></data>
+</root>

@@ -12,12 +12,16 @@ a:hover{
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
+    max-width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 .container > div{
-    magrin:10px;
+    margin:10px;
 }
 img{
-    zoom:0.15;
+    width: 72px;
+    height: auto;
     background-color: white;
     filter: contrast(76.5%);
     border:0;
@@ -31,6 +35,6 @@ img:hover{
         font-size: 1.2rem;
     }
     img {
-        zoom: 0.10;
+        width: 48px;
     }
 }

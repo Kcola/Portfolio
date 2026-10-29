@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/PortfolioV2/PortfolioV2.csproj",
+                "${workspaceFolder}/Portfolio/Portfolio.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/PortfolioV2/PortfolioV2.csproj",
+                "${workspaceFolder}/Portfolio/Portfolio.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,8 +31,9 @@
             "type": "process",
             "args": [
                 "watch",
+                "--project",
+                "${workspaceFolder}/Portfolio/Portfolio.csproj",
                 "run",
-                "${workspaceFolder}/PortfolioV2/PortfolioV2.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

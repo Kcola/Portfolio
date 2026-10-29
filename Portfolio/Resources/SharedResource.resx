@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="Greeting" xml:space="preserve"><value>Sup, my name is Kola Campbell.</value></data>
+  <data name="Occupation" xml:space="preserve"><value>Software engineer at Microsoft.</value></data>
+  <data name="Home" xml:space="preserve"><value>Home</value></data>
+  <data name="Publications" xml:space="preserve"><value>Publications</value></data>
+  <data name="Contact" xml:space="preserve"><value>Contact</value></data>
+  <data name="MainNavigation" xml:space="preserve"><value>Main navigation</value></data>
+  <data name="OpenNavigation" xml:space="preserve"><value>Open navigation</value></data>
+  <data name="CloseNavigation" xml:space="preserve"><value>Close navigation</value></data>
+  <data name="Language" xml:space="preserve"><value>Language</value></data>
+  <data name="NotFound" xml:space="preserve"><value>Sorry, there's nothing at this address.</value></data>
+  <data name="Loading" xml:space="preserve"><value>Loading portfolio</value></data>
+  <data name="Error" xml:space="preserve"><value>An unhandled error has occurred.</value></data>
+  <data name="Reload" xml:space="preserve"><value>Reload</value></data>
+  <data name="DismissError" xml:space="preserve"><value>Dismiss error</value></data>
+</root>

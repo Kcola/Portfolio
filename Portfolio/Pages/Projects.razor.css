@@ -1,0 +1,25 @@
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.code {
+    font-family: inherit;
+    font-size: 2rem;
+}
+
+.code a {
+    color: yellow;
+    text-decoration: none;
+    transition: color 0.2s ease-in;
+}
+
+.code a:hover {
+    color: pink;
+}
+
+@media (max-width: 768px) {
+    .code {
+        font-size: clamp(.9rem, 4vw, 1.5rem);
+    }
+}

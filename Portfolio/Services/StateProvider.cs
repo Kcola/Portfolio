@@ -1,13 +1,10 @@
 using System;
-using System.Text.Json;
-
-#nullable enable
 namespace Portfolio.Services
 {
     public class State
     {
-        public bool? NavOpen { get; set; } = false;
-        public VimCommandLine? CurrentCommand { get; set; } = new VimCommandLine("", "");
+        public bool NavOpen { get; set; }
+        public VimCommandLine CurrentCommand { get; set; } = new VimCommandLine("", "");
         private void NotifyStateChanged() => OnChange?.Invoke();
 
         public event Action? OnChange;
@@ -17,15 +14,18 @@ namespace Portfolio.Services
             switch (stateAction.Type)
             {
                 case ActionType.TOGGLE_NAVBAR:
-                    NavOpen = stateAction.Payload?.NavOpen;
+                    NavOpen = (stateAction.Payload ?? throw new ArgumentException("Navigation state is required.", nameof(stateAction))).NavOpen;
                     break;
                 case ActionType.ENTER_COMMAND:
-                    NavOpen = stateAction.Payload?.NavOpen;
-                    CurrentCommand = stateAction.Payload?.CurrentCommand;
+                    var payload = stateAction.Payload ?? throw new ArgumentException("Command state is required.", nameof(stateAction));
+                    NavOpen = payload.NavOpen;
+                    CurrentCommand = payload.CurrentCommand;
                     break;
                 case ActionType.CLEAR_COMMAND:
                     CurrentCommand = new VimCommandLine("","");
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(stateAction));
             }
 
             NotifyStateChanged();

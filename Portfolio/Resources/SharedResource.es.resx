@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="Greeting" xml:space="preserve"><value>Hola, me llamo Kola Campbell.</value></data>
+  <data name="Occupation" xml:space="preserve"><value>Ingeniero de software en Microsoft.</value></data>
+  <data name="Home" xml:space="preserve"><value>Inicio</value></data>
+  <data name="Publications" xml:space="preserve"><value>Publicaciones</value></data>
+  <data name="Contact" xml:space="preserve"><value>Contacto</value></data>
+  <data name="MainNavigation" xml:space="preserve"><value>Navegación principal</value></data>
+  <data name="OpenNavigation" xml:space="preserve"><value>Abrir navegación</value></data>
+  <data name="CloseNavigation" xml:space="preserve"><value>Cerrar navegación</value></data>
+  <data name="Language" xml:space="preserve"><value>Idioma</value></data>
+  <data name="NotFound" xml:space="preserve"><value>Lo sentimos, no hay nada en esta dirección.</value></data>
+  <data name="Loading" xml:space="preserve"><value>Cargando portafolio</value></data>
+  <data name="Error" xml:space="preserve"><value>Se ha producido un error inesperado.</value></data>
+  <data name="Reload" xml:space="preserve"><value>Recargar</value></data>
+  <data name="DismissError" xml:space="preserve"><value>Cerrar error</value></data>
+</root>

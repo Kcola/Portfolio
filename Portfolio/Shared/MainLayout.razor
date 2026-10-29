@@ -1,126 +1,132 @@
-﻿@using Portfolio.Services
+@using Portfolio.Services
 @inherits LayoutComponentBase
 @inject State State
 @inject UseJavascript JS
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
-@implements IDisposable
-<main>
-    @if (Dimensions == null)
-    {
-        <div>Loading...</div>
-    }
-    else
-    {
-        <div class="left-border">
-            <ul>
-                @for (var i = 0; i < TextBoarder(); i++)
-                {
-                    <li>~</li>
-                }
-            </ul>
-        </div>
-        <nav class="@($"{(State.NavOpen.Value ? "is-active" : "")}")">
-            <Navbar Remount="@Remount" CurrentRoute="@CurrentRoute"/>
-        </nav>
-        <button aria-label="Expose Navigation" class="@($"hamburger hamburger--collapse {(State.NavOpen.Value ? "is-active" : "")}")"
-                @onclick="@HandleClick">
+@implements IAsyncDisposable
+
+<main @onkeydown="HandleKeyDown">
+    <div class="left-border" aria-hidden="true">
+        <ul>
+            @for (var i = 0; i < BorderLineCount; i++)
+            {
+                <li>~</li>
+            }
+        </ul>
+    </div>
+    <div id="navigation" class="@($"navigation {(State.NavOpen ? "is-active" : "")}")">
+        <Navbar CurrentRoute="@CurrentRoute"/>
+    </div>
+    <div class="header-controls">
+        <CultureSelector/>
+        <button type="button" aria-label="@(State.NavOpen ? Localizer["CloseNavigation"] : Localizer["OpenNavigation"])"
+                aria-expanded="@(State.NavOpen ? "true" : "false")" aria-controls="navigation"
+                class="@($"hamburger hamburger--collapse {(State.NavOpen ? "is-active" : "")}")"
+                @onclick="HandleClick">
             <span class="hamburger-box">
                 <span class="hamburger-inner"></span>
             </span>
         </button>
-        <div class="content">
-            @Body
+    </div>
+    <div class="content" tabindex="-1" inert="@(State.NavOpen ? "" : null)">
+        @Body
+    </div>
+    <div class="footer">
+        <div class="command-line">
+            @if (State.CurrentCommand.Command.Length > 0)
+            {
+                <VimCommand @key="State.CurrentCommand" CurrentCommand="@State.CurrentCommand"/>
+            }
         </div>
-        <div class="footer">
-            <div>
-                @if (Mount && State.CurrentCommand.Command.Length > 0)
-                {
-                    <VimCommand Command="@($":{State.CurrentCommand.Command} {State.CurrentCommand.Args}")"/>
-                }
-            </div>
-            <ul class="vim-text-info">
-                <li>
-                    2
-                </li>
-                <li>
-                    6,15
-                </li>
-                <li>
-                    All
-                </li>
-            </ul>
-        </div>
-    }
+        <ul class="vim-text-info" aria-hidden="true">
+            <li>2</li>
+            <li>6,15</li>
+            <li>All</li>
+        </ul>
+    </div>
 </main>
 
-@code{
-    private BrowserDimension Dimensions { get; set; }
-    private bool Mount { get; set; } = false;
-    public string CurrentRoute { get; set; } = "";
-    private double TextBoarder()
+@code {
+    private BrowserDimension? _dimensions;
+    private DotNetObjectReference<MainLayout>? _reference;
+    private bool _disposed;
+    private string CurrentRoute => "/" + NavigationManager.ToBaseRelativePath(NavigationManager.Uri).Split('?', '#')[0].Trim('/');
+    private int BorderLineCount
     {
-        var BaseFontSize = 16;
-        var RelativeFontSize = 1.5;
-        var FontToLi = 1.29411764706;
-        if (Dimensions.Width < 768)
+        get
         {
-            RelativeFontSize = 1.2;
+            if (_dimensions is null)
+            {
+                return 0;
+            }
+
+            var fontSize = _dimensions.Width <= 768 ? 1.2 : 1.5;
+            return Math.Max(0, (int)(_dimensions.Height / (16 * fontSize * 1.29411764706)) - 5);
         }
-        return (Dimensions.Height / (BaseFontSize * RelativeFontSize * FontToLi)) - 5;
     }
 
-    public void Dispose()
-    {
-        State.OnChange -= StateHasChanged;
-    }
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         State.OnChange += StateHasChanged;
-        State.Reducer(new StateAction
-        {
-            Type = ActionType.ENTER_COMMAND,
-            Payload = new State {CurrentCommand = new VimCommandLine(Commands.OpenFile, NavItems.Socials)}
-        });
-        await UseWidow();
+        NavigationManager.LocationChanged += HandleLocationChanged;
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            JSRuntime.InvokeVoidAsync("Dimensions", DotNetObjectReference.Create(this));
+            _reference = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("portfolio.startResizeListener", _reference);
+            await UseWindow();
         }
     }
 
-    [JSInvokable("UseWindow")]
-    public async Task UseWidow()
+    [JSInvokable]
+    public async Task UseWindow()
     {
-        Dimensions = await JS.GetDimensions();
-        StateHasChanged();
+        if (!_disposed)
+        {
+            _dimensions = await JS.GetDimensions();
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private void HandleClick()
     {
-        CurrentRoute = NavigationManager.Uri.Substring(NavigationManager.Uri.LastIndexOf("/"));
         State.Reducer(new StateAction
         {
             Type = ActionType.TOGGLE_NAVBAR,
-            Payload = new State {NavOpen = !State.NavOpen}
+            Payload = new State { NavOpen = !State.NavOpen }
         });
     }
 
-    void Remount()
+    private void HandleKeyDown(KeyboardEventArgs args)
     {
-        Mount = false;
-        StateHasChanged();
-        Task.Delay(500).ContinueWith(t =>
+        if (args.Key == "Escape" && State.NavOpen)
         {
-            Mount = true;
-            StateHasChanged();
+            HandleClick();
+        }
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        State.Reducer(new StateAction
+        {
+            Type = ActionType.ENTER_COMMAND,
+            Payload = new State()
         });
     }
 
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        State.OnChange -= StateHasChanged;
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+        if (_reference is not null)
+        {
+            await JSRuntime.InvokeVoidAsync("portfolio.stopResizeListener");
+            _reference.Dispose();
+        }
+    }
 }

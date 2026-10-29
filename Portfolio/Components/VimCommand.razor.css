@@ -1,0 +1,27 @@
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid white;
+    white-space: nowrap;
+    width: var(--command-width);
+    max-width: 100%;
+    margin: 0;
+    letter-spacing: .15em;
+    animation: typing var(--typing-duration) steps(var(--typing-steps), end),
+        blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: var(--command-width); }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: white; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .typewriter {
+        animation: none;
+    }
+}

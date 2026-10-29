@@ -1,12 +1,27 @@
-﻿html, body, main{
+* {
+    box-sizing: border-box;
+}
+
+html, body {
     font-family: 'Fira Code', monospace;
     font-size: 16px;
-    height: 100vh;
-    height: -webkit-fill-available;
-    width: 100vw;
+    min-height: 100%;
+    width: 100%;
     margin: 0;
     background-color: rgb(30,30,30);
     color:white;
+}
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid yellow;
+    outline-offset: 4px;
+}
+
+.loading {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .spinner {
@@ -62,12 +77,9 @@
        }
 }
 #app{
-    height: 100vh;
-    height: -webkit-fill-available;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
 }
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
@@ -91,6 +103,7 @@
     position: fixed;
     width: 100%;
     z-index: 1000;
+    color: #1e1e1e;
 }
 
     #blazor-error-ui .dismiss {
@@ -99,4 +112,13 @@
         right: 0.75rem;
         top: 0.5rem;
     }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
+    }
+}
     

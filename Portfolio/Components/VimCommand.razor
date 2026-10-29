@@ -1,106 +1,51 @@
-@using System.Text.Json
 @using Portfolio.Services
-@inject State State
-@inject UseJavascript Js
+@using System.Globalization
+@using System.Threading
 @implements IDisposable
+@inject State State
 @inject NavigationManager NavigationManager
-<style>
-    @Css
-</style>
-<p class="typewriter">@Command</p>
+
+<p class="typewriter" style="@AnimationStyle" role="status">@Command</p>
 
 @code {
+    [Parameter, EditorRequired]
+    public VimCommandLine CurrentCommand { get; set; } = new("", "");
 
-    [Parameter]
-    public string Command { get; set; }
+    private readonly CancellationTokenSource _cancellation = new();
+    private string Command => $":{CurrentCommand.Command} {CurrentCommand.Args}";
+    private double Duration => Command.Length / 8.0;
+    private string AnimationStyle => $"--command-width: calc({Command.Length}ch + {(Command.Length * 0.15).ToString(CultureInfo.InvariantCulture)}em); --typing-duration: {Duration.ToString(CultureInfo.InvariantCulture)}s; --typing-steps: {Command.Length}";
 
-    public string Css { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (State.CurrentCommand != null)
+        if (!firstRender)
         {
-            Command = $":{State.CurrentCommand.Command} {State.CurrentCommand.Args}";
-            Css = $@"
-.typewriter{{
-overflow: hidden; /* Ensures the content is not revealed until the animation */
-border-right: .15em solid white; /* The typwriter cursor */
-white-space: nowrap; /* Keeps the content on a single line */
-margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-letter-spacing: .15em; /* Adjust as needed */
-animation:
-typing {Command.Length / 8}s steps({Command.Length}, end),
-blink-caret .75s step-end infinite;
-}}
+            return;
+        }
 
-/* The typing effect */
-@keyframes typing {{
-from {{ width: 0 }}
-to {{ width: 100% }}
-}}
+        var route = CurrentCommand.Args switch
+        {
+            NavItems.Home => "",
+            NavItems.Contacts => "Contact",
+            NavItems.Projects => "Projects",
+            _ => throw new InvalidOperationException($"Unknown navigation target: {CurrentCommand.Args}")
+        };
 
-/* The typewriter cursor effect */
-@keyframes blink-caret {{
-from, to {{ border-color: transparent }}
-50% {{ border-color: white; }}
-}}
-";
-            State.OnChange += StateHasChanged;
-            switch (State.CurrentCommand.Args)
-            {
-                case NavItems.Publications:
-                    await Js.Redirect("https://arxiv.org/abs/1904.13231");
-                    break;
-                case NavItems.Contacts:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                    {
-                        NavigationManager.NavigateTo("Contact");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
-                    break;
-                case NavItems.Projects:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                    {
-                        NavigationManager.NavigateTo("Projects");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
-                    break;
-                case NavItems.Socials:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                    {
-                        NavigationManager.NavigateTo("Socials");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
-                    break;
-                case NavItems.Github:
-                    await Js.Redirect("https://github.com/kcola");
-                    break;
-                case NavItems.Home:
-                    await Task.Delay((Command.Length / 8) * 1000 + 500).ContinueWith(t =>
-                    {
-                        NavigationManager.NavigateTo("/");
-                        State.Reducer(new StateAction
-                        {
-                            Type = ActionType.CLEAR_COMMAND,
-                        });
-                    });
-                    break;
-            }
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(Duration + 0.5), _cancellation.Token);
+            NavigationManager.NavigateTo(route);
+            State.Reducer(new StateAction { Type = ActionType.CLEAR_COMMAND });
+        }
+        catch (OperationCanceledException) when (_cancellation.IsCancellationRequested)
+        {
+            // A newer command or route change superseded this animation.
         }
     }
 
     public void Dispose()
     {
-        State.OnChange -= StateHasChanged;
+        _cancellation.Cancel();
+        _cancellation.Dispose();
     }
-
 }

@@ -4,9 +4,9 @@
 @inject State State
 
 <div class="about">
-    <p style="font-weight: bold">Sup, my name is Kola Campbell.</p>
-    <p class="last-line">Software engineer at Microsoft. Typescript and .NET enthusiast
-        @if (!State.NavOpen.Value)
+    <p style="font-weight: bold">@Localizer["Greeting"]</p>
+    <p class="last-line">@Localizer["Occupation"]
+        @if (!State.NavOpen)
         {
             <span class="cursor">|</span>
         }

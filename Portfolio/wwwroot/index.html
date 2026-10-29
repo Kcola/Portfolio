@@ -7,15 +7,14 @@
     <title>Kola Campbell</title>
     <base href="/" />
     <link href="css/app.css" rel="stylesheet" />
-    <link href="_framework/scoped.styles.css" rel="stylesheet" />
     <link href="Portfolio.styles.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div id="app">
-        <div class="loading">
-            <div class="spinner">
+        <div class="loading" role="status" aria-label="Loading portfolio">
+            <div class="spinner" aria-hidden="true">
                 <div class="rect1"></div>
                 <div class="rect2"></div>
                 <div class="rect3"></div>
@@ -23,37 +22,12 @@
             </div>
         </div>
     </div>
-<style>
-    @media only screen and (max-width: 768px) {
-        .code {
-            font-size: 1.5rem;
-        }
-    }
-</style>
     <div id="blazor-error-ui">
-        An unhandled error has occurred.
+        <span class="message">An unhandled error has occurred.</span>
         <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
+        <button type="button" class="dismiss" aria-label="Dismiss error">X</button>
     </div>
-    <script type="text/javascript">
-        window.getDimensions = function () {
-            return {
-                width: window.innerWidth,
-                height: window.innerHeight
-            };
-        };
-        window.Dimensions = (dotnetHelper) => {
-            window.addEventListener("resize", () => {
-                dotnetHelper.invokeMethodAsync("UseWindow");
-                // dotnetHelper.dispose();
-            });
-        }
-        window.Redirect = (url) => window.open(url, "_blank");
-        window.onresize = function() {
-            document.body.height = window.innerHeight;
-        }
-        window.onresize();
-    </script>
+    <script src="js/app.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 

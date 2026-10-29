@@ -1,0 +1,28 @@
+@using System.Globalization
+@using Portfolio.Services
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<label class="culture-selector">
+    <span class="sr-only">@Localizer["Language"]</span>
+    <select value="@CultureInfo.CurrentUICulture.Name" @onchange="ChangeCulture">
+        @foreach (var culture in AppCulture.Supported)
+        {
+            <option value="@culture" lang="@culture">@CultureInfo.GetCultureInfo(culture).NativeName</option>
+        }
+    </select>
+</label>
+
+@code {
+    private async Task ChangeCulture(ChangeEventArgs args)
+    {
+        var culture = args.Value?.ToString();
+        if (culture is null || !AppCulture.Supported.Contains(culture))
+        {
+            throw new ArgumentOutOfRangeException(nameof(args), "Unsupported language.");
+        }
+
+        await JS.InvokeVoidAsync("portfolio.setCulture", culture);
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+}
